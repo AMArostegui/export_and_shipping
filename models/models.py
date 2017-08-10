@@ -29,3 +29,5 @@ class Shipment(models.Model):
     transport = fields.Many2one('res.partner',
         ondelete='set null', string="Transport", index=True, required=True,
         domain = ['&', ('supplier', '=', True), ('category_id.name', 'ilike', "Transport")])
+
+    notes = fields.Char(string="Notes");
