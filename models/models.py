@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields
 
-# class export_and_shipping(models.Model):
-#     _name = 'export_and_shipping.export_and_shipping'
+class Shipment(models.Model):
+    _name = 'export_and_shipping.shipment'
 
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         self.value2 = float(self.value) / 100
+    awb = fields.Char(string="Airway Bill")
+    date = fields.Date(string="Departure", default=fields.Date.today)
+    by_plane = fields.Boolean(string="By Plane", default=True)
+
+    perishable = fields.Many2one('product.product',
+        ondelete='set null', string="Perishable", index=True)
