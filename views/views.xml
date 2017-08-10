@@ -17,7 +17,8 @@
         <field name="arch" type="xml">
             <tree string="Shipments Tree">
                 <field name="awb"/>
-                <field name="date"/>
+                <field name="departure_date"/>
+                <field name="arrival_date"/>
                 <field name="by_plane"/>
             </tree>
         </field>
