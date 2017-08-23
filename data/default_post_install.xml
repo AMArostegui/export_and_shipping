@@ -1,0 +1,29 @@
+<export_and_shipping>
+    <data>
+        <vendors>
+            <category id="0">
+                <vendor>Aguacaturry</vendor>
+                <vendor>Hurtanava</vendor>
+            </category>
+            <category id="1">
+                <vendor>AeroMexico</vendor>
+                <vendor>Iberia</vendor>
+                <vendor>Maersk</vendor>
+            </category>
+            <category id="2">
+                <vendor>Kuehne + Nagel</vendor>
+                <vendor>R. H. Shipping</vendor>
+            </category>
+        </vendors>
+        <products>
+            <product name="Aguacate Hass"/>
+            <product name="Piña"/>
+            <product name="Mango">
+                <variety>Ataulfo</variety>
+                <variety>Kent</variety>
+                <variety>Keitt</variety>
+                <variety>Tommy Atkins</variety>
+            </product>
+        </products>
+    </data>
+</export_and_shipping>
