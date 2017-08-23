@@ -40,7 +40,8 @@ class Shipment(models.Model):
         if not Shipment._startup:
             return
 
-        utils.add_post_install_data(self.env["res.partner"], self.env["res.partner.category"])
+        utils.add_default_vendors(self.env["res.partner"], self.env["res.partner.category"])
+        utils.add_default_products(self.env["product.template"], self.env["product.product"], self.env["product.price.history"])
 
     @api.model
     def flag_module_startup(self):
