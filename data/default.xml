@@ -13,6 +13,26 @@
             <field name="color">1</field>
         </record>
 
+        <record model="product.attribute" id="AttMango">
+            <field name="name">Tipo Mango</field>
+        </record>
+        <record model="product.attribute.value" id="AttMangoValAtaulfo">
+            <field name="name">Ataulfo</field>
+            <field name="attribute_id" ref="AttMango"/>
+        </record>
+        <record model="product.attribute.value" id="AttMangoValKent">
+            <field name="name">Kentt</field>
+            <field name="attribute_id" ref="AttMango"/>
+        </record>
+        <record model="product.attribute.value" id="AttMangoValKeitt">
+            <field name="name">Keitt</field>
+            <field name="attribute_id" ref="AttMango"/>
+        </record>
+        <record model="product.attribute.value" id="AttMangoValAtkins">
+            <field name="name">Atkins</field>
+            <field name="attribute_id" ref="AttMango"/>
+        </record>
+
         <!-- There's no easy way to add to res.partners and product.product with a data module-->
         <!-- Using a function instead-->
         <function model="export_and_shipping.shipment" name="flag_module_startup">
