@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, models, fields
-from odoo.addons.export_and_shipping.models import utils
+from odoo.addons.export_and_shipping.models import loader
 
 class Shipment(models.Model):
     _name = 'export_and_shipping.shipment'
@@ -27,11 +27,11 @@ class Shipment(models.Model):
 
     forwarder = fields.Many2one('res.partner',
         ondelete='set null', string="Forwarder", index=True,
-        domain=['&', ('supplier', '=', True), ('category_id.name', 'ilike', utils.CAT_VENDOR[2])])
+        domain=['&', ('supplier', '=', True), ('category_id.name', 'ilike', loader.CAT_VENDOR[2])])
 
     transport = fields.Many2one('res.partner',
         ondelete='set null', string="Transport", index=True, required=True,
-        domain = ['&', ('supplier', '=', True), ('category_id.name', 'ilike', utils.CAT_VENDOR[1])])
+        domain = ['&', ('supplier', '=', True), ('category_id.name', 'ilike', loader.CAT_VENDOR[1])])
 
     notes = fields.Char(string="Notes")
 
@@ -40,8 +40,9 @@ class Shipment(models.Model):
         if not Shipment._startup:
             return
 
-        utils.add_default_vendors(self.env["res.partner"], self.env["res.partner.category"])
-        utils.add_default_products(self.env["product.template"], self.env["product.product"], self.env["product.price.history"])
+        with loader.Loader(self.env) as load:
+            load.add_default_vendors()
+            load.add_default_products()
 
     @api.model
     def flag_module_startup(self):

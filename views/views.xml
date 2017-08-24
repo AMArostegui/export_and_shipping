@@ -6,9 +6,6 @@
         <field name="arch" type="xml">
             <form string="Course Form">
                 <sheet>
-                    <button name="add_products_and_vendors" string="Test data" type="object">
-
-                    </button>
                     <group string="General">
                         <field name="perishable"/>
                         <field name="approx_weight"/>
