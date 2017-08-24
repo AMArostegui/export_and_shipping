@@ -39,8 +39,6 @@ def add_default_products(product_template, product_product, product_price_histor
             if product_template.search_count(domain_check_exists) != 0:
                 continue
 
-            created_product_template = product_template.create(new_product_template)
-            created_product_product = product_product.create({ u'product_tmpl_id': created_product_template.id })
-            product_price_history.create({ u'product_id': created_product_product.id })
+            product_template.create(new_product_template)
     finally:
         fp.close()
