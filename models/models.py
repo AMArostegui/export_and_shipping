@@ -25,13 +25,15 @@ class Shipment(models.Model):
         ondelete='set null', string="Customer", index=True,
         domain=[('customer', '=', True)])
 
+    loader.Loader.read_partner_categories()
+
     forwarder = fields.Many2one('res.partner',
         ondelete='set null', string="Forwarder", index=True,
-        domain=['&', ('supplier', '=', True), ('category_id.name', 'ilike', loader.CAT_VENDOR[2])])
+        domain=['&', ('supplier', '=', True), ('category_id.name', 'ilike', loader.Loader.CAT_VENDOR["TagForwarder"])])
 
     transport = fields.Many2one('res.partner',
         ondelete='set null', string="Transport", index=True, required=True,
-        domain = ['&', ('supplier', '=', True), ('category_id.name', 'ilike', loader.CAT_VENDOR[1])])
+        domain = ['&', ('supplier', '=', True), ('category_id.name', 'ilike', loader.Loader.CAT_VENDOR["TagTransporter"])])
 
     notes = fields.Char(string="Notes")
 

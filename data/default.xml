@@ -4,7 +4,7 @@
             <field name="name">Grower</field>
             <field name="color">4</field>
         </record>
-        <record model="res.partner.category" id="TagTransportAndLogistics">
+        <record model="res.partner.category" id="TagTransporter">
             <field name="name">Transport and Logistics</field>
             <field name="color">6</field>
         </record>

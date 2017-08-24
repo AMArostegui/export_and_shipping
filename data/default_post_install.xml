@@ -2,16 +2,16 @@
     <export_and_shipping>
         <data>
             <vendors>
-                <category id="0">
+                <category id="TagGrower">
                     <vendor>Aguacaturry</vendor>
                     <vendor>Hurtanava</vendor>
                 </category>
-                <category id="1">
+                <category id="TagTransporter">
                     <vendor>AeroMexico</vendor>
                     <vendor>Iberia</vendor>
                     <vendor>Maersk</vendor>
                 </category>
-                <category id="2">
+                <category id="TagForwarder">
                     <vendor>Kuehne + Nagel</vendor>
                     <vendor>R. H. Shipping</vendor>
                 </category>
