@@ -25,15 +25,15 @@ class Shipment(models.Model):
         ondelete='set null', string="Customer", index=True,
         domain=[('customer', '=', True)])
 
-    loader.Loader.read_partner_categories()
+    loader.Loader.read_categories()
 
     forwarder = fields.Many2one('res.partner',
         ondelete='set null', string="Forwarder", index=True,
-        domain=['&', ('supplier', '=', True), ('category_id.name', 'ilike', loader.Loader.CAT_VENDOR["TagForwarder"])])
+        domain=['&', ('supplier', '=', True), ('category_id.name', 'ilike', loader.Loader.TAG_VENDOR["TagForwarder"])])
 
     transport = fields.Many2one('res.partner',
         ondelete='set null', string="Transport", index=True, required=True,
-        domain = ['&', ('supplier', '=', True), ('category_id.name', 'ilike', loader.Loader.CAT_VENDOR["TagTransporter"])])
+        domain = ['&', ('supplier', '=', True), ('category_id.name', 'ilike', loader.Loader.TAG_VENDOR["TagTransporter"])])
 
     notes = fields.Char(string="Notes")
 
@@ -45,6 +45,8 @@ class Shipment(models.Model):
         with loader.Loader(self.env) as load:
             load.add_default_vendors()
             load.add_default_products()
+
+        Shipment._startup = False
 
     @api.model
     def flag_module_startup(self):

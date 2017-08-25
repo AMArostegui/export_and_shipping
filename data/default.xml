@@ -33,6 +33,10 @@
             <field name="attribute_id" ref="AttMango"/>
         </record>
 
+        <record model="product.category" id="ProdCatPerishable">
+            <field name="name">Perishable</field>
+        </record>
+
         <!-- There's no easy way to add to res.partners and product.product with a data module-->
         <!-- Using a function instead-->
         <function model="export_and_shipping.shipment" name="flag_module_startup">
