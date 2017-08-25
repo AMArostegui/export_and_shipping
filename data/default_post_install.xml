@@ -20,10 +20,10 @@
                 <product name="Aguacate Hass"/>
                 <product name="Piña"/>
                 <product name="Mango">
-                    <variety>Ataulfo</variety>
-                    <variety>Kent</variety>
-                    <variety>Keitt</variety>
-                    <variety>Tommy Atkins</variety>
+                    <variety id="AttMangoValAtaulfo"/>
+                    <variety id="AttMangoValKent"/>
+                    <variety id="AttMangoValKeitt"/>
+                    <variety id="AttMangoValAtkins"/>
                 </product>
             </products>
         </data>

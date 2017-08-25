@@ -66,8 +66,13 @@ class Loader:
         for product_node in product_nodes:
             new_product_template = { u'sale_ok': True, u'purchase_ok': True,
                                      u'name': product_node.attrib["name"], u'categ_id': cat_id.id }
-            domain_check_exists = [('name', 'ilike', new_product_template['name'])]
-            if product_template.search_count(domain_check_exists) != 0:
+            product_exists = [('name', 'ilike', new_product_template['name'])]
+            if product_template.search_count(product_exists) != 0:
                 continue
-
             product_template.create(new_product_template)
+
+            for variety_node in product_node._children:
+                variety = variety_node.attrib["id"]
+
+
+
