@@ -57,15 +57,15 @@ class Shipment(models.Model):
                                      u'name': product_template.name, u'categ_id': product_template.categ_id.id })
         product_attribute_value = model_product_attribute_value.search([('name', 'ilike', "Keitt")])
         product_attribute_value.write({u'product_ids': [(4, [new_product_product.id])] })
-        kaka = [(4, [new_product_product.id])]
+        product_attribute_line.write({u'value_ids': [(4, [product_attribute_value.id])]})
 
         new_product_product = model_product_product.create({ u'sale_ok': True, u'purchase_ok': True, u'product_tmpl_id': product_template.id,
                                      u'name': product_template.name, u'categ_id': product_template.categ_id.id })
         product_attribute_value = model_product_attribute_value.search([('name', 'ilike', "Kentt")])
         product_attribute_value.write({u'product_ids': [(4, [new_product_product.id])] })
-        kaka.append((4, [new_product_product.id]))
+        product_attribute_line.write({u'value_ids': [(4, [product_attribute_value.id])]})
 
-        product_attribute_line.write({ u'value_ids': kaka })
+
         old_product_product.unlink()
 
         pass
