@@ -5,7 +5,7 @@ from odoo.tools.misc import file_open
 
 class Loader:
     TAG_VENDOR = {}
-    CAT_PRODUCT = []
+    CAT_PRODUCT = {}
 
     def __init__(self, shipment):
         self.environment = shipment.env
@@ -39,41 +39,46 @@ class Loader:
             categories = tree.findall(".//data/record[@model='product.category']")
             for category in categories:
                 field = category.find(".//field[@name='name']")
-                Loader.CAT_PRODUCT.append(field.text)
+                Loader.CAT_PRODUCT[category.attrib["id"]] = field.text
         finally:
             fp.close()
 
     def add_default_vendors(self):
         res_partners = self.environment["res.partner"]
-        res_partners_categories = self.environment["res.partner.category"]
 
         for cat_id, cat_name in Loader.TAG_VENDOR.iteritems():
-            res_partner_category = res_partners_categories.search([('name', 'ilike', cat_name)])
+            res_partner_category = self.environment.ref(self.module_name + '.' + cat_id)
             find_nodes_xpath = ".//data/vendors/category[@id='{0}']".format(cat_id)
             cat_nodes = self.tree.findall(find_nodes_xpath)
             cat_nodes = cat_nodes[0]
             for cat_node in cat_nodes._children:
-                res_partner_obj = { u'type': u'contact', u'is_company': False, u'customer': False, u'supplier': True, u'employee': False,
-                               u'name': cat_node.text, u'category_id': [(4, [res_partner_category.id])] }
-                domain_check_exists = [('name', 'ilike', res_partner_obj['name'])]
-                if res_partners.search_count(domain_check_exists) == 0:
+                # Would be great to use an external id, like Odoo does with its own data files,
+                # to avoid a string-based query
+                vendor_exists = [('name', 'ilike', cat_node.text)]
+                if res_partners.search_count(vendor_exists) == 0:
+                    res_partner_obj = {u'type': u'contact', u'is_company': False, u'customer': False, u'supplier': True,
+                                       u'employee': False,
+                                       u'name': cat_node.text, u'category_id': [(4, [res_partner_category.id])]}
                     res_partners.create(res_partner_obj)
 
     def add_default_products(self):
         product_templates = self.environment["product.template"]
-        product_categories = self.environment["product.category"]
-        cat_id = product_categories.search([('name', 'ilike', Loader.CAT_PRODUCT[0])])
 
+        # Perishable category is the only one, so far, and for the foreseeable future
+        cat_xmlid = Loader.CAT_PRODUCT.iterkeys().next()
+        product_category = self.environment.ref(self.module_name + '.' + cat_xmlid)
         find_nodes_xpath = ".//data/products/product"
         product_nodes = self.tree.findall(find_nodes_xpath)
 
         for product_node in product_nodes:
-            product_template_obj = { u'sale_ok': True, u'purchase_ok': True,
-                                     u'name': product_node.attrib["name"], u'categ_id': cat_id.id }
-            product_exists = [('name', 'ilike', product_template_obj['name'])]
+            # Would be great to use an external id, like Odoo does with its own data files,
+            # to avoid a string-based query
+            product_exists = [('name', 'ilike', product_node.attrib["name"])]
             if product_templates.search_count(product_exists) != 0:
                 continue
 
+            product_template_obj = { u'sale_ok': True, u'purchase_ok': True,
+                                     u'name': product_node.attrib["name"], u'categ_id': product_category.id }
             product_template = product_templates.create(product_template_obj)
 
             att_val_xmlids = []

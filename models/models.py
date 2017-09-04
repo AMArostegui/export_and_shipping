@@ -27,6 +27,7 @@ class Shipment(models.Model):
 
     loader.Loader.read_categories(_name)
 
+    # Would be great to get rid of those "ilike" domains, and simply use database ids
     forwarder = fields.Many2one('res.partner',
         ondelete='set null', string="Forwarder", index=True,
         domain=['&', ('supplier', '=', True), ('category_id.name', 'ilike', loader.Loader.TAG_VENDOR["TagForwarder"])])
