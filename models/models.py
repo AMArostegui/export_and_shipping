@@ -40,14 +40,14 @@ class Shipment(models.Model):
 
     @api.model
     def view_init(self, fields_list):
-        # if not Shipment._startup:
-        #     return
+        if not Shipment._startup:
+            return
 
         with loader.Loader(self) as load:
             load.add_default_vendors()
             load.add_default_products()
 
-        # Shipment._startup = False
+        Shipment._startup = False
 
     @api.model
     def flag_module_startup(self):
