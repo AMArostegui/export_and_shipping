@@ -33,16 +33,35 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="order_form_view">
+        <field name="name">order.form</field>
+        <field name="model">export_and_shipping.sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_total']" position="after">
+                <field name="to_export"/>
+            </xpath>
+        </field>
+    </record>
 
-    <record model="ir.actions.act_window" id="shipment_list_action">
+    <record model="ir.actions.act_window" id="shipments_actions">
         <field name="name">Shipments</field>
         <field name="res_model">export_and_shipping.shipment</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
+    <record model="ir.actions.act_window" id="orders_actions">
+        <field name="name">Orders</field>
+        <field name="res_model">export_and_shipping.sale.order</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
 
-    <menuitem id="shipments_menu" name="Shipments" parent="sales_team.menu_sales"
-          action="shipment_list_action"/>
+    <menuitem id="export_and_shipping_menu" name="Export and Shipping" parent="sales_team.menu_base_partner"/>
+    <menuitem id="shipments_menu_shipments" name="Shipments" parent="export_and_shipping_menu"
+          action="shipments_actions"/>
+    <menuitem id="shipments_menu_orders" name="Export Orders" parent="export_and_shipping_menu"
+          action="orders_actions"/>
 
     <!-- Shipments tree/list view -->
     <record model="ir.ui.view" id="shipments_tree_view">
