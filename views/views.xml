@@ -35,12 +35,19 @@
 
     <record model="ir.ui.view" id="order_form_view">
         <field name="name">order.form</field>
-        <field name="model">export_and_shipping.sale.order</field>
+        <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='amount_total']" position="after">
-                <field name="to_export"/>
-            </xpath>
+            <data>
+                <xpath expr="//field[@name='amount_total']" position="after">
+                    <field name="to_export"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom_qty']" position="before">
+                    <field name="is_organic"/>
+                    <field name="size"/>
+                    <field name="quality"/>
+                </xpath>
+            </data>
         </field>
     </record>
 
@@ -52,7 +59,7 @@
     </record>
     <record model="ir.actions.act_window" id="orders_actions">
         <field name="name">Orders</field>
-        <field name="res_model">export_and_shipping.sale.order</field>
+        <field name="res_model">sale.order</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>

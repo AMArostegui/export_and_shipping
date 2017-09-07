@@ -54,13 +54,11 @@ class Shipment(models.Model):
         Shipment._startup = True
 
 class SaleOrder(models.Model):
-    _name = 'export_and_shipping.sale.order'
     _inherit = 'sale.order'
 
-    to_export = fields.Boolean(string="Export Order", default=True)
+    to_export = fields.Boolean(string="Export Order", default=False)
 
 class SaleOrderLine(models.Model):
-    _name = 'export_and_shipping.sale.order.line'
     _inherit = 'sale.order.line'
 
     size = fields.Integer(string="Product Size")
