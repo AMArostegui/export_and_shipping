@@ -63,7 +63,5 @@ class SaleOrderLine(models.Model):
 
     size = fields.Integer(string="Product Size")
     is_organic = fields.Boolean(string="Is Organic", default=False)
-    quality = fields.Selection(string="Quality", selection=[('CATI', 'CAT I'), ('CATII', 'CAT II'), ('CATIII', 'CAT III')])
-
-
-
+    quality = fields.Selection(string="Quality", selection=[('CATI', 'Cat I'), ('CATII', 'Cat II'), ('CATIII', 'Cat III')])
+    is_export_order = fields.Boolean(related="order_id.to_export")
