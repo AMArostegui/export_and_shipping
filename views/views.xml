@@ -17,6 +17,14 @@
                         <field name="flight_no"/>
                     </group>
                     <notebook>
+                        <page string="Export Orders">
+                            <field name="order_id" mode="tree,kanban">
+                                <tree string="Export Orders" editable="bottom">
+                                    <field name="awb"/>
+                                    <field name="forwarder"/>
+                                </tree>
+                            </field>
+                        </page>
                         <page string="Notes">
                             <field name="notes"/>
                         </page>
@@ -35,7 +43,7 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <data>
-                <xpath expr="//field[@name='amount_total']" position="after">
+                <xpath expr="//field[@name='partner_shipping_id']" position="after">
                     <field name="awb"/>
                     <field name="forwarder"/>
                 </xpath>
@@ -55,6 +63,16 @@
         <field name="res_model">export_and_shipping.shipment</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Create a Shipment. Group several orders in the same shipment.
+            </p>
+            <p>
+                You can associate several export orders to a single shipment.
+                A regular order won't be available
+                Create export orders in <i>Export Orders</i> menu
+            </p>
+        </field>
     </record>
 
     <record model="ir.actions.act_window" id="exportorder_actions">
@@ -62,6 +80,14 @@
         <field name="res_model">sale.order</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Create a Export Order. Group several orders in the same shipment.
+            </p>
+            <p>
+                The orders you create here will be available to associate with shipments
+            </p>
+        </field>
     </record>
 
     <!--Menu Items-->

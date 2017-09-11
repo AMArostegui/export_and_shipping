@@ -18,7 +18,7 @@ class Shipment(models.Model):
     departure_dt = fields.Datetime(string="Departure", default=fields.Datetime.now())
     arrival_dt = fields.Datetime(string="Arrival", default=fields.Datetime.now())
 
-    order_id = fields.Many2one("sale.order", string="Export Orders", ondelete="set null", index=True)
+    order_id = fields.One2many("sale.order", "shipment_id", string="Export Orders", ondelete="set null", index=True)
 
     global MODULE_NAME
     MODULE_NAME = get_module_name(_name)
@@ -62,6 +62,8 @@ class SaleOrder(models.Model):
         domain=['&', ('supplier', '=', True), ('category_id.name', 'ilike', loader.Loader.TAG_VENDOR["TagForwarder"])])
 
     to_export = fields.Boolean(string="Export Order", default=False)
+
+    shipment_id = fields.Many2one('export_and_shipping.shipment', string='Shipment Reference', index=True, copy=False)
 
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
         new_view_id = view_id
