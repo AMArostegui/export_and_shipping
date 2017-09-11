@@ -69,17 +69,27 @@ class SaleOrder(models.Model):
         new_view_id = view_id
 
         # This is a hack to show inherited view from sales.order only after clicking on our own menuitem
-        if view_id is None:
-            if view_type == "form" and "params" in self.env.context and "action" in self.env.context["params"]:
-                action_dbid = self.env.context["params"]["action"]
-                action = self.env.ref(MODULE_NAME + "." + self.EXPORTORDER_ACTIONS_EXTID)
-                if action.id == action_dbid:
-                    ir_ui_view = self.env['ir.ui.view']
-                    domain = [('name', '=', self.EXPORTORDER_FORM_NAME)]
-                    new_view_id = ir_ui_view.search(domain, limit=1).id
+        if view_id is None and view_type == "form":
+            if self.is_model_action():
+                ir_ui_view = self.env['ir.ui.view']
+                domain = [('name', '=', self.EXPORTORDER_FORM_NAME)]
+                new_view_id = ir_ui_view.search(domain, limit=1).id
 
         return super(SaleOrder, self).fields_view_get(view_id=new_view_id, view_type=view_type, toolbar=toolbar,
                                                       submenu=submenu)
+    @api.model
+    def create(self, vals):
+        if self.is_model_action():
+            vals["to_export"] = True
+        return super(SaleOrder, self).create(vals=vals)
+
+    def is_model_action(self):
+        if "params" in self.env.context and "action" in self.env.context["params"]:
+            action_dbid = self.env.context["params"]["action"]
+            action = self.env.ref(MODULE_NAME + "." + self.EXPORTORDER_ACTIONS_EXTID)
+            if action.id == action_dbid:
+                return True
+        return False
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
