@@ -7,21 +7,13 @@
         <field name="arch" type="xml">
             <form string="Course Form">
                 <sheet>
-                    <group string="General">
-                        <field name="perishable"/>
-                        <field name="approx_weight"/>
-                        <field name="customer"/>
-                    </group>
                     <group string="Schedule">
-                        <field name="retrieval_date"/>
-                        <field name="departure_date"/>
-                        <field name="arrival_date"/>
+                        <field name="departure_dt"/>
+                        <field name="arrival_dt"/>
                     </group>
                     <group string="Trip">
                         <field name="by_plane"/>
-                        <field name="forwarder"/>
                         <field name="transport"/>
-                        <field name="awb"/>
                         <field name="flight_no"/>
                     </group>
                     <notebook>
@@ -43,7 +35,12 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <data>
+                <xpath expr="//field[@name='amount_total']" position="after">
+                    <field name="awb"/>
+                    <field name="forwarder"/>
+                </xpath>
                 <xpath expr="//field[@name='order_line']/tree//field[@name='product_uom_qty']" position="before">
+                    <field name="retrieval_date"/>
                     <field name="is_organic"/>
                     <field name="size"/>
                     <field name="quality"/>
@@ -80,9 +77,8 @@
         <field name="model">export_and_shipping.shipment</field>
         <field name="arch" type="xml">
             <tree string="Shipments Tree">
-                <field name="awb"/>
-                <field name="departure_date"/>
-                <field name="arrival_date"/>
+                <field name="departure_dt"/>
+                <field name="arrival_dt"/>
                 <field name="by_plane"/>
             </tree>
         </field>

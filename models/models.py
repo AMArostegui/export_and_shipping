@@ -15,32 +15,19 @@ class Shipment(models.Model):
 
     _startup = False
 
-    awb = fields.Char(string="Airway Bill / Book")
-    flight_no = fields.Char(string="Flight / Container Number")
-    by_plane = fields.Boolean(string="By Plane", default=True)
+    departure_dt = fields.Datetime(string="Departure", default=fields.Datetime.now())
+    arrival_dt = fields.Datetime(string="Arrival", default=fields.Datetime.now())
 
-    approx_weight = fields.Integer(string="Approx. Weight")
-
-    retrieval_date = fields.Date(string="Retrieval", default=fields.Date.today)
-    departure_date = fields.Date(string="Departure", default=fields.Date.today)
-    arrival_date = fields.Date(string="Arrival", default=fields.Date.today)
-
-    perishable = fields.Many2one('product.product',
-        ondelete='set null', string="Perishable", index=True)
-
-    customer = fields.Many2one('res.partner',
-        ondelete='set null', string="Customer", index=True,
-        domain=[('customer', '=', True)])
+    order_id = fields.Many2one("sale.order", string="Export Orders", ondelete="set null", index=True)
 
     global MODULE_NAME
     MODULE_NAME = get_module_name(_name)
     loader.Loader.read_categories(MODULE_NAME)
 
-    # Would be great to get rid of those "ilike" domains, and simply use database ids
-    forwarder = fields.Many2one('res.partner',
-        ondelete='set null', string="Forwarder", index=True,
-        domain=['&', ('supplier', '=', True), ('category_id.name', 'ilike', loader.Loader.TAG_VENDOR["TagForwarder"])])
+    flight_no = fields.Char(string="Flight / Container Number")
+    by_plane = fields.Boolean(string="By Plane", default=True)
 
+    # Would be great to get rid of those "ilike" domains, and simply use database ids
     transport = fields.Many2one('res.partner',
         ondelete='set null', string="Transport", index=True, required=True,
         domain = ['&', ('supplier', '=', True), ('category_id.name', 'ilike', loader.Loader.TAG_VENDOR["TagTransporter"])])
@@ -68,6 +55,12 @@ class SaleOrder(models.Model):
     EXPORTORDER_ACTIONS_EXTID = "exportorder_actions"
     EXPORTORDER_FORM_NAME = "exportorder.form"
 
+    awb = fields.Char(string="Airway Bill / Book")
+
+    forwarder = fields.Many2one('res.partner',
+        ondelete='set null', string="Forwarder", index=True,
+        domain=['&', ('supplier', '=', True), ('category_id.name', 'ilike', loader.Loader.TAG_VENDOR["TagForwarder"])])
+
     to_export = fields.Boolean(string="Export Order", default=False)
 
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
@@ -89,7 +82,10 @@ class SaleOrder(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
+    retrieval_date = fields.Date(string="Retrieval", default=fields.Date.today)
+
     size = fields.Integer(string="Product Size")
     is_organic = fields.Boolean(string="Is Organic", default=False)
     quality = fields.Selection(string="Quality", selection=[('CATI', 'Cat I'), ('CATII', 'Cat II'), ('CATIII', 'Cat III')])
+
     is_export_order = fields.Boolean(related="order_id.to_export")
