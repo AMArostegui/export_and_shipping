@@ -21,10 +21,7 @@ class Loader:
         self.fp.close()
 
     @staticmethod
-    def read_categories(model_name):
-        idx = model_name.find(".")
-        module_name = model_name[:idx]
-
+    def read_categories(module_name):
         pathname = os.path.join(module_name, u'data/default.xml')
         fp = file_open(pathname)
 

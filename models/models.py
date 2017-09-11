@@ -3,6 +3,13 @@
 from odoo import api, models, fields
 from odoo.addons.export_and_shipping.models import loader
 
+MODULE_NAME = ""
+
+def get_module_name(model_name):
+    idx = model_name.find(".")
+    module_name = model_name[:idx]
+    return module_name
+
 class Shipment(models.Model):
     _name = 'export_and_shipping.shipment'
 
@@ -25,7 +32,9 @@ class Shipment(models.Model):
         ondelete='set null', string="Customer", index=True,
         domain=[('customer', '=', True)])
 
-    loader.Loader.read_categories(_name)
+    global MODULE_NAME
+    MODULE_NAME = get_module_name(_name)
+    loader.Loader.read_categories(MODULE_NAME)
 
     # Would be great to get rid of those "ilike" domains, and simply use database ids
     forwarder = fields.Many2one('res.partner',
@@ -56,13 +65,26 @@ class Shipment(models.Model):
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    EXPORTORDER_ACTIONS_EXTID = "exportorder_actions"
+    EXPORTORDER_FORM_NAME = "exportorder.form"
+
     to_export = fields.Boolean(string="Export Order", default=False)
 
-    # def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
-    #     if view_type == "form" or "params" not in self.env.context or "action" not in self.env.context["params"]:
-    #         return super(SaleOrder, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
-    #
-    #     action = self.env.context["params"]["action"]
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+        new_view_id = view_id
+
+        # This is a hack to show inherited view from sales.order only after clicking on our own menuitem
+        if view_id is None:
+            if view_type == "form" and "params" in self.env.context and "action" in self.env.context["params"]:
+                action_dbid = self.env.context["params"]["action"]
+                action = self.env.ref(MODULE_NAME + "." + self.EXPORTORDER_ACTIONS_EXTID)
+                if action.id == action_dbid:
+                    ir_ui_view = self.env['ir.ui.view']
+                    domain = [('name', '=', self.EXPORTORDER_FORM_NAME)]
+                    new_view_id = ir_ui_view.search(domain, limit=1).id
+
+        return super(SaleOrder, self).fields_view_get(view_id=new_view_id, view_type=view_type, toolbar=toolbar,
+                                                      submenu=submenu)
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
