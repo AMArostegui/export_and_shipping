@@ -1,5 +1,6 @@
 <odoo>
   <data>
+    <!-- Form views -->
     <record model="ir.ui.view" id="shipment_form_view">
         <field name="name">shipment.form</field>
         <field name="model">export_and_shipping.shipment</field>
@@ -36,6 +37,9 @@
     <record model="ir.ui.view" id="order_form_view">
         <field name="name">order.form</field>
         <field name="model">sale.order</field>
+        <!-- Low priority and primary inheritance not to override the default view for standard actions -->
+        <field name="priority">32</field>
+        <field name="mode">primary</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <data>
@@ -46,32 +50,34 @@
                     <field name="is_organic"/>
                     <field name="size"/>
                     <field name="quality"/>
-                    <field name="is_export_order" invisible="1"/>
                 </xpath>
             </data>
         </field>
     </record>
 
+      <!-- Window actions -->
     <record model="ir.actions.act_window" id="shipments_actions">
         <field name="name">Shipments</field>
         <field name="res_model">export_and_shipping.shipment</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
+
     <record model="ir.actions.act_window" id="orders_actions">
-        <field name="name">Orders</field>
+        <field name="name">ExportOrders</field>
         <field name="res_model">sale.order</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
+    <!--Menu Items-->
     <menuitem id="export_and_shipping_menu" name="Export and Shipping" parent="sales_team.menu_base_partner"/>
     <menuitem id="shipments_menu_shipments" name="Shipments" parent="export_and_shipping_menu"
           action="shipments_actions"/>
     <menuitem id="shipments_menu_orders" name="Export Orders" parent="export_and_shipping_menu"
           action="orders_actions"/>
 
-    <!-- Shipments tree/list view -->
+    <!-- Tree/List views -->
     <record model="ir.ui.view" id="shipments_tree_view">
         <field name="name">shipments.tree</field>
         <field name="model">export_and_shipping.shipment</field>
@@ -81,6 +87,16 @@
                 <field name="departure_date"/>
                 <field name="arrival_date"/>
                 <field name="by_plane"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="order_tree_view">
+        <field name="name">order.tree</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <tree string="Export Orders Tree">
+                <field name="to_export"/>
             </tree>
         </field>
     </record>

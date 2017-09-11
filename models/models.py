@@ -58,6 +58,12 @@ class SaleOrder(models.Model):
 
     to_export = fields.Boolean(string="Export Order", default=False)
 
+    # def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+    #     if view_type == "form" or "params" not in self.env.context or "action" not in self.env.context["params"]:
+    #         return super(SaleOrder, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
+    #
+    #     action = self.env.context["params"]["action"]
+
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
