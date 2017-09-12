@@ -3,13 +3,6 @@
 from odoo import api, models, fields
 from odoo.addons.export_and_shipping.models import loader
 
-MODULE_NAME = ""
-
-def get_module_name(model_name):
-    idx = model_name.find(".")
-    module_name = model_name[:idx]
-    return module_name
-
 class Shipment(models.Model):
     _name = 'export_and_shipping.shipment'
 
@@ -20,17 +13,13 @@ class Shipment(models.Model):
 
     order_id = fields.One2many("sale.order", "shipment_id", string="Export Orders", ondelete="set null", index=True)
 
-    global MODULE_NAME
-    MODULE_NAME = get_module_name(_name)
-    loader.Loader.read_categories(MODULE_NAME)
-
     flight_no = fields.Char(string="Flight / Container Number")
     by_plane = fields.Boolean(string="By Plane", default=True)
 
     # Would be great to get rid of those "ilike" domains, and simply use database ids
     transport = fields.Many2one('res.partner',
         ondelete='set null', string="Transport", index=True, required=True,
-        domain = ['&', ('supplier', '=', True), ('category_id.name', 'ilike', loader.Loader.TAG_VENDOR["TagTransporter"])])
+        domain = ['&', ('supplier', '=', True), ('category_id.name', 'ilike', loader.Loader.get_tag_vendor()["TagTransporter"])])
 
     notes = fields.Char(string="Notes")
 
@@ -52,15 +41,11 @@ class Shipment(models.Model):
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    EXPORTORDER_ACTIONS_EXTID = "exportorder_actions"
-    EXPORTORDER_FORMVIEW_NAME = "exportorder.form"
-    EXPORTORDER_TREEVIEW_NAME = "exportorder.tree"
-
     awb = fields.Char(string="Airway Bill / Book")
 
     forwarder = fields.Many2one('res.partner',
         ondelete='set null', string="Forwarder", index=True,
-        domain=['&', ('supplier', '=', True), ('category_id.name', 'ilike', loader.Loader.TAG_VENDOR["TagForwarder"])])
+        domain=['&', ('supplier', '=', True), ('category_id.name', 'ilike', loader.Loader.get_tag_vendor()["TagForwarder"])])
 
     to_export = fields.Boolean(string="Export Order", default=False)
 
@@ -73,9 +58,9 @@ class SaleOrder(models.Model):
         if view_id is None:
             view_name = ""
             if view_type == "form":
-                view_name = self.EXPORTORDER_FORMVIEW_NAME
+                view_name = loader.Defines.EXPORTORDER_FORMVIEW_NAME
             elif view_type == "tree":
-                view_name = self.EXPORTORDER_TREEVIEW_NAME
+                view_name = loader.Defines.EXPORTORDER_TREEVIEW_NAME
 
             if view_name and self.is_model_action():
                 ir_ui_view = self.env['ir.ui.view']
@@ -93,7 +78,7 @@ class SaleOrder(models.Model):
     def is_model_action(self):
         if "params" in self.env.context and "action" in self.env.context["params"]:
             action_dbid = self.env.context["params"]["action"]
-            action = self.env.ref(MODULE_NAME + "." + self.EXPORTORDER_ACTIONS_EXTID)
+            action = self.env.ref(loader.Defines.MODULE_NAME + "." + loader.Defines.EXPORTORDER_ACTIONS_EXTID)
             if action.id == action_dbid:
                 return True
         return False

@@ -3,16 +3,24 @@ import xml.etree.ElementTree as ET
 
 from odoo.tools.misc import file_open
 
+class Defines:
+    # In __manifest__.py
+    MODULE_NAME = "export_and_shipping"
+
+    # In views.xml
+    EXPORTORDER_ACTIONS_EXTID = "exportorder_actions"
+    EXPORTORDER_FORMVIEW_NAME = "exportorder.form"
+    EXPORTORDER_TREEVIEW_NAME = "exportorder.tree"
+
 class Loader:
-    TAG_VENDOR = {}
-    CAT_PRODUCT = {}
+    _tag_vendor = None
+    _cat_product = None
 
     def __init__(self, shipment):
         self.environment = shipment.env
-        self.module_name = shipment._module
 
     def __enter__(self):
-        pathname = os.path.join(self.module_name, u'data/default_post_install.xml')
+        pathname = os.path.join(Defines.MODULE_NAME, u'data/default_post_install.xml')
         self.fp = file_open(pathname)
         self.tree = ET.fromstring(self.fp.read())
         return self
@@ -21,8 +29,8 @@ class Loader:
         self.fp.close()
 
     @staticmethod
-    def read_categories(module_name):
-        pathname = os.path.join(module_name, u'data/default.xml')
+    def _read_categories():
+        pathname = os.path.join(Defines.MODULE_NAME, u'data/default.xml')
         fp = file_open(pathname)
 
         try:
@@ -31,20 +39,32 @@ class Loader:
             categories = tree.findall(".//data/record[@model='res.partner.category']")
             for category in categories:
                 field = category.find(".//field[@name='name']")
-                Loader.TAG_VENDOR[category.attrib["id"]] = field.text
+                Loader._tag_vendor[category.attrib["id"]] = field.text
 
             categories = tree.findall(".//data/record[@model='product.category']")
             for category in categories:
                 field = category.find(".//field[@name='name']")
-                Loader.CAT_PRODUCT[category.attrib["id"]] = field.text
+                Loader._cat_product[category.attrib["id"]] = field.text
         finally:
             fp.close()
+
+    @staticmethod
+    def get_tag_vendor():
+        if Loader._tag_vendor is None or Loader._cat_product is None:
+            Loader._read_categories()
+        return Loader._tag_vendor
+
+    @staticmethod
+    def get_cat_product():
+        if Loader._tag_vendor is None or Loader._cat_product is None:
+            Loader._read_categories()
+        return Loader._cat_product
 
     def add_default_vendors(self):
         res_partners = self.environment["res.partner"]
 
-        for cat_id, cat_name in Loader.TAG_VENDOR.iteritems():
-            res_partner_category = self.environment.ref(self.module_name + '.' + cat_id)
+        for cat_id, cat_name in self.get_tag_vendor().iteritems():
+            res_partner_category = self.environment.ref(Defines.MODULE_NAME + '.' + cat_id)
             find_nodes_xpath = ".//data/vendors/category[@id='{0}']".format(cat_id)
             cat_nodes = self.tree.findall(find_nodes_xpath)
             cat_nodes = cat_nodes[0]
@@ -62,8 +82,8 @@ class Loader:
         product_templates = self.environment["product.template"]
 
         # Perishable category is the only one, so far, and for the foreseeable future
-        cat_xmlid = Loader.CAT_PRODUCT.iterkeys().next()
-        product_category = self.environment.ref(self.module_name + '.' + cat_xmlid)
+        cat_xmlid = Loader.get_cat_product().iterkeys().next()
+        product_category = self.environment.ref(Defines.MODULE_NAME + '.' + cat_xmlid)
         find_nodes_xpath = ".//data/products/product"
         product_nodes = self.tree.findall(find_nodes_xpath)
 
@@ -92,7 +112,7 @@ class Loader:
         old_product_product = product_products.search([('product_tmpl_id', '=', product_template.id)])
 
         for att_val_xmlid in att_val_xmlids:
-            product_attribute_value = self.environment.ref(self.module_name + '.' + att_val_xmlid)
+            product_attribute_value = self.environment.ref(Defines.MODULE_NAME + '.' + att_val_xmlid)
             product_attribute = product_attribute_value.attribute_id
 
             product_attributes_lines = self.environment["product.attribute.line"]
