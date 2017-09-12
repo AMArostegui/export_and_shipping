@@ -18,8 +18,8 @@ class Loader:
 
     _update = False
 
-    def __init__(self, shipment):
-        self.environment = shipment.env
+    def __init__(self, model):
+        self.environment = model.env
 
     def __enter__(self):
         pathname = os.path.join(Defines.MODULE_NAME, u'data/default_post_install.xml')
