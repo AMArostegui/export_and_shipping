@@ -53,7 +53,8 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     EXPORTORDER_ACTIONS_EXTID = "exportorder_actions"
-    EXPORTORDER_FORM_NAME = "exportorder.form"
+    EXPORTORDER_FORMVIEW_NAME = "exportorder.form"
+    EXPORTORDER_TREEVIEW_NAME = "exportorder.tree"
 
     awb = fields.Char(string="Airway Bill / Book")
 
@@ -69,10 +70,16 @@ class SaleOrder(models.Model):
         new_view_id = view_id
 
         # This is a hack to show inherited view from sales.order only after clicking on our own menuitem
-        if view_id is None and view_type == "form":
-            if self.is_model_action():
+        if view_id is None:
+            view_name = ""
+            if view_type == "form":
+                view_name = self.EXPORTORDER_FORMVIEW_NAME
+            elif view_type == "tree":
+                view_name = self.EXPORTORDER_TREEVIEW_NAME
+
+            if view_name and self.is_model_action():
                 ir_ui_view = self.env['ir.ui.view']
-                domain = [('name', '=', self.EXPORTORDER_FORM_NAME)]
+                domain = [('name', '=', view_name)]
                 new_view_id = ir_ui_view.search(domain, limit=1).id
 
         return super(SaleOrder, self).fields_view_get(view_id=new_view_id, view_type=view_type, toolbar=toolbar,

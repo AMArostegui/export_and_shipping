@@ -119,6 +119,29 @@
         </field>
     </record>
 
+    <record model="ir.ui.view" id="exportorder_tree_view">
+        <field name="name">exportorder.tree</field>
+        <field name="model">sale.order</field>
+        <!-- See comment in exportorder_form_view -->
+        <field name="priority">32</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="awb"/>
+                    <field name="forwarder"/>
+                </xpath>
+                <field name="user_id" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+                <field name="invoice_status" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </field>
+            </data>
+        </field>
+    </record>
+
     <!-- Search views -->
     <record model="ir.ui.view" id="exportorder_search_view">
         <field name="name">exportorder.search</field>
