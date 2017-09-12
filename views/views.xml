@@ -19,7 +19,14 @@
                     <notebook>
                         <page string="Export Orders">
                             <field name="order_id" mode="tree,kanban">
-                                <tree string="Export Orders" editable="bottom">
+                                <form string="Sales Order Lines">
+                                    <group>
+                                        <field name="awb"/>
+                                        <field name="forwarder"/>
+                                        <field name="amount_total"/>
+                                    </group>
+                                </form>
+                                <tree string="Export Orders" create="false" edit="false" editable="bottom">
                                     <field name="awb"/>
                                     <field name="forwarder"/>
                                 </tree>
@@ -44,6 +51,7 @@
         <field name="arch" type="xml">
             <data>
                 <xpath expr="//field[@name='partner_shipping_id']" position="after">
+                    <field name="shipment_id"/>
                     <field name="awb"/>
                     <field name="forwarder"/>
                 </xpath>
