@@ -39,7 +39,7 @@ class SaleOrder(models.Model):
     shipment_id = fields.Many2one('export_and_shipping.shipment', string='Shipment Reference', index=True, copy=False)
 
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
-        loader.update_if_needed(self)
+        loader.Loader.update_if_needed(self)
 
         new_view_id = view_id
 
