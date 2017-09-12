@@ -39,11 +39,13 @@ class Loader:
             tree = ET.fromstring(fp.read())
 
             categories = tree.findall(".//data/record[@model='res.partner.category']")
+            Loader._tag_vendor = {}
             for category in categories:
                 field = category.find(".//field[@name='name']")
                 Loader._tag_vendor[category.attrib["id"]] = field.text
 
             categories = tree.findall(".//data/record[@model='product.category']")
+            Loader._cat_product = {}
             for category in categories:
                 field = category.find(".//field[@name='name']")
                 Loader._cat_product[category.attrib["id"]] = field.text
@@ -76,6 +78,8 @@ class Loader:
     @staticmethod
     def flag_update():
         Loader._update = True
+        Loader._tag_vendor = None
+        Loader._cat_product = None
 
     def add_default_vendors(self):
         res_partners = self.environment["res.partner"]
