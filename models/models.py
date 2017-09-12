@@ -6,8 +6,6 @@ from odoo.addons.export_and_shipping.models import loader
 class Shipment(models.Model):
     _name = 'export_and_shipping.shipment'
 
-    _startup = False
-
     departure_dt = fields.Datetime(string="Departure", default=fields.Datetime.now())
     arrival_dt = fields.Datetime(string="Arrival", default=fields.Datetime.now())
 
@@ -24,19 +22,8 @@ class Shipment(models.Model):
     notes = fields.Char(string="Notes")
 
     @api.model
-    def view_init(self, fields_list):
-        if not Shipment._startup:
-            return
-
-        with loader.Loader(self) as load:
-            load.add_default_vendors()
-            load.add_default_products()
-
-        Shipment._startup = False
-
-    @api.model
     def flag_module_startup(self):
-        Shipment._startup = True
+        loader.Loader.flag_update()
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -52,6 +39,8 @@ class SaleOrder(models.Model):
     shipment_id = fields.Many2one('export_and_shipping.shipment', string='Shipment Reference', index=True, copy=False)
 
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+        loader.update_if_needed(self)
+
         new_view_id = view_id
 
         # This is a hack to show inherited view from sales.order only after clicking on our own menuitem

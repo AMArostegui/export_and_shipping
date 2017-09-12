@@ -16,6 +16,8 @@ class Loader:
     _tag_vendor = None
     _cat_product = None
 
+    _update = False
+
     def __init__(self, shipment):
         self.environment = shipment.env
 
@@ -59,6 +61,21 @@ class Loader:
         if Loader._tag_vendor is None or Loader._cat_product is None:
             Loader._read_categories()
         return Loader._cat_product
+
+    @staticmethod
+    def update_if_needed(model):
+        if not Loader._update:
+            return
+
+        with Loader(model) as load:
+            load.add_default_vendors()
+            load.add_default_products()
+
+        Loader._update = False
+
+    @staticmethod
+    def flag_update():
+        Loader._update = True
 
     def add_default_vendors(self):
         res_partners = self.environment["res.partner"]
