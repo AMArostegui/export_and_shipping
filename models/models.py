@@ -7,6 +7,7 @@ from odoo.addons.export_and_shipping.models.loader import Defines
 
 class Shipment(models.Model):
     _name = 'export_and_shipping.shipment'
+    _rec_name = 'flight_no'
 
     departure_dt = fields.Datetime(string="Departure", default=fields.Datetime.now())
     arrival_dt = fields.Datetime(string="Arrival", default=fields.Datetime.now())
