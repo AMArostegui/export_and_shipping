@@ -12,14 +12,14 @@ class Shipment(models.Model):
     departure_dt = fields.Datetime(string="Departure", default=fields.Datetime.now())
     arrival_dt = fields.Datetime(string="Arrival", default=fields.Datetime.now())
 
-    order_id = fields.One2many("sale.order", "shipment_id", string="Export Orders", ondelete="set null", index=True)
+    order_id = fields.One2many("sale.order", "shipment_id", string="Export Orders", index=True)
 
     flight_no = fields.Char(string="Flight / Container Number")
     by_plane = fields.Boolean(string="By Plane", default=True)
 
     # Would be great to get rid of those "ilike" domains, and simply use database ids
     transport = fields.Many2one('res.partner',
-        ondelete='set null', string="Transport", index=True, required=True,
+        string="Transport", index=True, required=True,
         domain = ['&', ('supplier', '=', True), ('category_id.name', 'ilike', Loader.get_tag_vendor()["TagTransporter"])])
 
     notes = fields.Char(string="Notes")
@@ -34,7 +34,7 @@ class SaleOrder(models.Model):
     awb = fields.Char(string="Airway Bill / Book")
 
     forwarder = fields.Many2one('res.partner',
-        ondelete='set null', string="Forwarder", index=True,
+        string="Forwarder", index=True,
         domain=['&', ('supplier', '=', True), ('category_id.name', 'ilike', Loader.get_tag_vendor()["TagForwarder"])])
 
     to_export = fields.Boolean(string="Export Order", default=False)
