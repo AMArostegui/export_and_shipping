@@ -67,7 +67,7 @@
 
       <!-- Window actions -->
     <record model="ir.actions.act_window" id="shipment_actions">
-        <field name="name">shipment.actions</field>
+        <field name="name">Shipments</field>
         <field name="res_model">export_and_shipping.shipment</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
@@ -84,7 +84,7 @@
     </record>
 
     <record model="ir.actions.act_window" id="exportorder_actions">
-        <field name="name">exportorder.actions</field>
+        <field name="name">Export Orders</field>
         <field name="res_model">sale.order</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
