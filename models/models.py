@@ -5,6 +5,15 @@ from odoo import api, models, fields
 from odoo.addons.export_and_shipping.models.loader import Loader
 from odoo.addons.export_and_shipping.models.loader import Defines
 
+
+def is_model_action(env, module_name, action_id):
+    if "params" in env.context and "action" in env.context["params"]:
+        action_dbid = env.context["params"]["action"]
+        action = env.ref(module_name + "." + action_id)
+        if action.id == action_dbid:
+            return True
+    return False
+
 class Shipment(models.Model):
     _name = 'export_and_shipping.shipment'
     _rec_name = 'flight_no'
@@ -27,6 +36,24 @@ class Shipment(models.Model):
     @api.model
     def flag_module_startup(self):
         Loader.flag_update()
+
+class Attachment(models.Model):
+    _inherit = 'ir.attachment'
+
+    is_external_bill = fields.Boolean("Is external bill", default=False)
+    is_certificate = fields.Boolean("Phytosanitary Certificate", default=False)
+    is_evidence = fields.Boolean("Pictures and Evidences", default=False)
+
+    @api.model
+    def create(self, vals):
+        if "create_is_certificate" in self.env.context:
+            vals["is_certificate"] = True
+        elif "create_is_external_bill" in self.env.context:
+            vals["is_external_bill"] = True
+        elif "create_is_evidence" in self.env.context:
+            vals["is_evidence"] = True
+
+        return super(Attachment, self).create(vals)
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -54,7 +81,7 @@ class SaleOrder(models.Model):
             elif view_type == "tree":
                 view_name = Defines.EXPORTORDER_TREEVIEW_NAME
 
-            if view_name and self.is_model_action():
+            if view_name and is_model_action(self.env, Defines.MODULE_NAME, Defines.EXPORTORDER_ACTIONS_EXTID):
                 ir_ui_view = self.env['ir.ui.view']
                 domain = [('name', '=', view_name)]
                 new_view_id = ir_ui_view.search(domain, limit=1).id
@@ -63,17 +90,9 @@ class SaleOrder(models.Model):
                                                       submenu=submenu)
     @api.model
     def create(self, vals):
-        if self.is_model_action():
+        if is_model_action(self.env, Defines.MODULE_NAME, Defines.EXPORTORDER_ACTIONS_EXTID):
             vals["to_export"] = True
         return super(SaleOrder, self).create(vals=vals)
-
-    def is_model_action(self):
-        if "params" in self.env.context and "action" in self.env.context["params"]:
-            action_dbid = self.env.context["params"]["action"]
-            action = self.env.ref(Defines.MODULE_NAME + "." + Defines.EXPORTORDER_ACTIONS_EXTID)
-            if action.id == action_dbid:
-                return True
-        return False
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
