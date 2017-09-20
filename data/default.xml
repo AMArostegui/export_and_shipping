@@ -14,7 +14,7 @@
         </record>
 
         <record model="product.attribute" id="AttMango">
-            <field name="name">Tipo Mango</field>
+            <field name="name">Mango Variety</field>
         </record>
         <record model="product.attribute.value" id="AttMangoValAtaulfo">
             <field name="name">Ataulfo</field>

@@ -1,0 +1,325 @@
+# This file contains the translation of the following modules:
+# 	* export_and_shipping
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-09-20 09:08+0000\n"
+"PO-Revision-Date: 2017-09-20 11:28+0100\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: es\n"
+"X-Generator: Poedit 1.7.3\n"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_sale_order_awb
+msgid "Airway Bill / Book"
+msgstr "AWB / Reserva"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_export_and_shipping_shipment_arrival_dt
+msgid "Arrival"
+msgstr "Llegada"
+
+#. module: export_and_shipping
+#: model:product.attribute.value,name:export_and_shipping.AttMangoValAtaulfo
+msgid "Ataulfo"
+msgstr "Ataulfo"
+
+#. module: export_and_shipping
+#: model:product.attribute.value,name:export_and_shipping.AttMangoValAtkins
+msgid "Atkins"
+msgstr "Atkins"
+
+#. module: export_and_shipping
+#: model:ir.ui.view,arch_db:export_and_shipping.shipment_form_view
+msgid "Attach"
+msgstr "Adjuntos"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_export_and_shipping_shipment_by_plane
+msgid "By Plane"
+msgstr "Aereo"
+
+#. module: export_and_shipping
+#: selection:sale.order.line,quality:0
+msgid "Cat I"
+msgstr "Cat I"
+
+#. module: export_and_shipping
+#: selection:sale.order.line,quality:0
+msgid "Cat II"
+msgstr "Cat II"
+
+#. module: export_and_shipping
+#: selection:sale.order.line,quality:0
+msgid "Cat III"
+msgstr "Cat III"
+
+#. module: export_and_shipping
+#: model:ir.ui.view,arch_db:export_and_shipping.shipment_form_view
+msgid "Course Form"
+msgstr "Course Form"
+
+#. module: export_and_shipping
+#: model:ir.actions.act_window,help:export_and_shipping.exportorder_actions
+msgid "Create a Export Order. Group several orders in the same shipment."
+msgstr "Crear una orden de exportación. Es posible agrupar varias órdenes en el mismo envío"
+
+#. module: export_and_shipping
+#: model:ir.actions.act_window,help:export_and_shipping.shipment_actions
+msgid "Create a Shipment. Group several orders in the same shipment."
+msgstr "Crear un envío. Es posible agrupar varias órdenes en el mismo envío."
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_export_and_shipping_shipment_create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_export_and_shipping_shipment_create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_export_and_shipping_shipment_departure_dt
+msgid "Departure"
+msgstr "Salida"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_export_and_shipping_shipment_display_name
+msgid "Display Name"
+msgstr "Nombre a mostrar"
+
+#. module: export_and_shipping
+#: model:ir.ui.view,arch_db:export_and_shipping.shipment_form_view
+msgid "Documents"
+msgstr "Documentos"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_sale_order_line_is_export_order
+#: model:ir.model.fields,field_description:export_and_shipping.field_sale_order_to_export
+msgid "Export Order"
+msgstr "Orden de Exportación"
+
+#. module: export_and_shipping
+#: model:ir.actions.act_window,name:export_and_shipping.exportorder_actions
+#: model:ir.model.fields,field_description:export_and_shipping.field_export_and_shipping_shipment_order_id
+#: model:ir.ui.menu,name:export_and_shipping.shipment_menu_order
+#: model:ir.ui.view,arch_db:export_and_shipping.exportorder_search_view
+#: model:ir.ui.view,arch_db:export_and_shipping.shipment_form_view
+msgid "Export Orders"
+msgstr "Órdenes de Exportación"
+
+#. module: export_and_shipping
+#: model:ir.ui.menu,name:export_and_shipping.export_and_shipping_menu
+msgid "Export and Shipping"
+msgstr "Exportaciones y Envíos"
+
+#. module: export_and_shipping
+#: model:ir.ui.view,arch_db:export_and_shipping.shipment_form_view
+msgid "External Bill"
+msgstr "Factura Externa"
+
+#. module: export_and_shipping
+#: model:ir.actions.act_window,name:export_and_shipping.attach_extbill_action
+msgid "External Bills"
+msgstr "Facturas Externas"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_export_and_shipping_shipment_flight_no
+msgid "Flight / Container Number"
+msgstr "Vuelo / Número de contenedor"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_sale_order_forwarder
+#: model:res.partner.category,name:export_and_shipping.TagForwarder
+msgid "Forwarder"
+msgstr "Transitario"
+
+#. module: export_and_shipping
+#: model:res.partner.category,name:export_and_shipping.TagGrower
+msgid "Grower"
+msgstr "Agricultor"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_export_and_shipping_shipment_id
+msgid "ID"
+msgstr "ID"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_sale_order_line_is_organic
+msgid "Is Organic"
+msgstr "Es ecológico"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_ir_attachment_is_external_bill
+msgid "Is external bill"
+msgstr "Es factura externa"
+
+#. module: export_and_shipping
+#: model:product.attribute.value,name:export_and_shipping.AttMangoValKeitt
+msgid "Keitt"
+msgstr "Keitt"
+
+#. module: export_and_shipping
+#: model:product.attribute.value,name:export_and_shipping.AttMangoValKent
+msgid "Kentt"
+msgstr "Kentt"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_export_and_shipping_shipment___last_update
+msgid "Last Modified on"
+msgstr "Modificado por"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_export_and_shipping_shipment_write_uid
+msgid "Last Updated by"
+msgstr "Actualizado por"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_export_and_shipping_shipment_write_date
+msgid "Last Updated on"
+msgstr "Actualizado el"
+
+#. module: export_and_shipping
+#: model:product.attribute,name:export_and_shipping.AttMango
+msgid "Mango Variety"
+msgstr "Tipo de Mango"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_export_and_shipping_shipment_notes
+#: model:ir.ui.view,arch_db:export_and_shipping.shipment_form_view
+msgid "Notes"
+msgstr "Notas"
+
+#. module: export_and_shipping
+#: model:product.category,name:export_and_shipping.ProdCatPerishable
+msgid "Perishable"
+msgstr "Perecedero"
+
+#. module: export_and_shipping
+#: model:ir.actions.act_window,name:export_and_shipping.attach_cert_action
+#: model:ir.model.fields,field_description:export_and_shipping.field_ir_attachment_is_certificate
+#: model:ir.ui.view,arch_db:export_and_shipping.shipment_form_view
+msgid "Phytosanitary Certificate"
+msgstr "Certificado Fitosanitario"
+
+#. module: export_and_shipping
+#: model:ir.actions.act_window,name:export_and_shipping.attach_evidence_action
+#: model:ir.model.fields,field_description:export_and_shipping.field_ir_attachment_is_evidence
+#: model:ir.ui.view,arch_db:export_and_shipping.shipment_form_view
+msgid "Pictures and Evidences"
+msgstr "Fotografías y Evidencias"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_sale_order_line_size
+msgid "Product Size"
+msgstr "Tamaño"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_sale_order_line_quality
+msgid "Quality"
+msgstr "Calidad"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_sale_order_line_retrieval_date
+msgid "Retrieval"
+msgstr "Recolección"
+
+#. module: export_and_shipping
+#: model:ir.model,name:export_and_shipping.model_sale_order
+msgid "Sales Order"
+msgstr "Orden de venta"
+
+#. module: export_and_shipping
+#: model:ir.model,name:export_and_shipping.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea de orden de venta"
+
+#. module: export_and_shipping
+#: model:ir.ui.view,arch_db:export_and_shipping.shipment_form_view
+msgid "Sales Order Lines"
+msgstr "Líneas de órdenes de venta"
+
+#. module: export_and_shipping
+#: model:ir.ui.view,arch_db:export_and_shipping.shipment_form_view
+msgid "Schedule"
+msgstr "Programa"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_sale_order_shipment_id
+msgid "Shipment Reference"
+msgstr "Referencia de envío"
+
+#. module: export_and_shipping
+#: model:ir.actions.act_window,name:export_and_shipping.shipment_actions
+#: model:ir.ui.menu,name:export_and_shipping.shipment_menu_shipments
+msgid "Shipments"
+msgstr "Envíos"
+
+#. module: export_and_shipping
+#: model:ir.ui.view,arch_db:export_and_shipping.shipment_tree_view
+msgid "Shipments Tree"
+msgstr "Lista de Envíos"
+
+#. module: export_and_shipping
+#: model:ir.actions.act_window,help:export_and_shipping.exportorder_actions
+msgid "The orders you create here will be available to associate with shipments"
+msgstr "Las ordenes creadas estarán disponibles para asociarse con envíos"
+
+#. module: export_and_shipping
+#: model:ir.actions.act_window,help:export_and_shipping.attach_evidence_action
+msgid "To add Pictures and Evidences click on create"
+msgstr "Para añadir fotos y evidencias, pulse crear"
+
+#. module: export_and_shipping
+#: model:ir.actions.act_window,help:export_and_shipping.attach_cert_action
+msgid "To add a Phytosanitary Certificate click on create"
+msgstr "Para añadir un certificado fitosanitario, pulse crear"
+
+#. module: export_and_shipping
+#: model:ir.actions.act_window,help:export_and_shipping.attach_extbill_action
+msgid "To add a external bill click on create"
+msgstr "Para añadir una factura externa, pulse crear"
+
+#. module: export_and_shipping
+#: model:ir.model.fields,field_description:export_and_shipping.field_export_and_shipping_shipment_transport
+msgid "Transport"
+msgstr "Transportista"
+
+#. module: export_and_shipping
+#: model:res.partner.category,name:export_and_shipping.TagTransporter
+msgid "Transport and Logistics"
+msgstr "Transporte y Logística"
+
+#. module: export_and_shipping
+#: model:ir.ui.view,arch_db:export_and_shipping.shipment_form_view
+msgid "Trip"
+msgstr "Ruta"
+
+#. module: export_and_shipping
+#: model:ir.actions.act_window,help:export_and_shipping.shipment_actions
+msgid ""
+"You can associate several export orders to a single shipment.\n"
+"                A regular order won't be available\n"
+"                Create export orders in <i>Export Orders</i> menu"
+msgstr ""
+"Puedes asociar varias órdenes al mismo envío.\n"
+"                Una orden normal no estará disponible\n"
+"                Cree órdenes de exportación en el menú <i>Órdenes de Exportación</i>"
+
+#. module: export_and_shipping
+#: model:ir.model,name:export_and_shipping.model_export_and_shipping_shipment
+msgid "export_and_shipping.shipment"
+msgstr "export_and_shipping.shipment"
+
+#. module: export_and_shipping
+#: model:ir.model,name:export_and_shipping.model_ir_attachment
+msgid "ir.attachment"
+msgstr "ir.attachment"

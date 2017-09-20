@@ -2,14 +2,14 @@
   <data>
     <!-- Attachment Actions -->
     <record model="ir.actions.act_window" id="attach_cert_action" >
-        <field name="name">Pyhtosanitary Certificate</field>
+        <field name="name">Phytosanitary Certificate</field>
         <field name="res_model">ir.attachment</field>
         <field name="view_type">form</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="domain" eval="[('is_certificate','=',True)]" />
         <field name="context" eval="{'create_is_certificate': 1}"/>
         <field name="help" type="html">
-            <p class="oe_view_nocontent_create">To add a pythosanitary certificate click on create</p>
+            <p class="oe_view_nocontent_create">To add a Phytosanitary Certificate click on create</p>
         </field>
     </record>
 
@@ -54,7 +54,7 @@
                         <field name="flight_no"/>
                     </group>
                     <group string="Documents">
-                        <label string="Pythosanitary Certificate" nolabel="1" />
+                        <label string="Phytosanitary Certificate" nolabel="1" />
                         <button class="oe_button oe_form_button" name="%(attach_cert_action)d" string="Attach" type="action" />
                         <newline/>
                         <label string="External Bill" nolabel="1" />
