@@ -13,6 +13,11 @@ class Defines:
     EXPORTORDER_FORMVIEW_NAME = "exportorder.form"
     EXPORTORDER_TREEVIEW_NAME = "exportorder.tree"
 
+    # In default.xml
+    TAGCOLOR_VENDOR_GROWER = 4
+    TAGCOLOR_VENDOR_TRANSPORTER = 6
+    TAGCOLOR_VENDOR_FORWARDER = 1
+
     def __init__(self):
         pass
 
@@ -33,7 +38,8 @@ class Loader:
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.fp.close()
+        if not self.fp is None:
+            self.fp.close()
 
     @staticmethod
     def _read_categories():

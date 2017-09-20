@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, models, fields
+from odoo import api, models, fields, _
 
 # noinspection PyUnresolvedReferences,PyUnresolvedReferences,PyUnresolvedReferences
 from odoo.addons.export_and_shipping.models.loader import Loader
@@ -29,11 +29,10 @@ class Shipment(models.Model):
     flight_no = fields.Char(string="Flight / Container Number")
     by_plane = fields.Boolean(string="By Plane", default=True)
 
-    # Would be great to get rid of those "ilike" domains, and simply use database ids
     transport = fields.Many2one('res.partner',
                                 string="Transport", index=True, required=True,
                                 domain=['&', ('supplier', '=', True),
-                                        ('category_id.name', 'ilike', Loader.get_tag_vendor()["TagTransporter"])])
+                                        ('category_id.color', '=', Defines.TAGCOLOR_VENDOR_TRANSPORTER)])
 
     notes = fields.Char(string="Notes")
 
@@ -69,7 +68,7 @@ class SaleOrder(models.Model):
     forwarder = fields.Many2one('res.partner',
                                 string="Forwarder", index=True,
                                 domain=['&', ('supplier', '=', True),
-                                        ('category_id.name', 'ilike', Loader.get_tag_vendor()["TagForwarder"])])
+                                        ('category_id.color', '=', Defines.TAGCOLOR_VENDOR_FORWARDER)])
 
     to_export = fields.Boolean(string="Export Order", default=False)
 
