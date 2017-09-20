@@ -2,7 +2,9 @@
 
 from odoo import api, models, fields
 
+# noinspection PyUnresolvedReferences,PyUnresolvedReferences,PyUnresolvedReferences
 from odoo.addons.export_and_shipping.models.loader import Loader
+# noinspection PyUnresolvedReferences,PyUnresolvedReferences,PyUnresolvedReferences
 from odoo.addons.export_and_shipping.models.loader import Defines
 
 
@@ -13,6 +15,7 @@ def is_model_action(env, module_name, action_id):
         if action.id == action_dbid:
             return True
     return False
+
 
 class Shipment(models.Model):
     _name = 'export_and_shipping.shipment'
@@ -28,14 +31,16 @@ class Shipment(models.Model):
 
     # Would be great to get rid of those "ilike" domains, and simply use database ids
     transport = fields.Many2one('res.partner',
-        string="Transport", index=True, required=True,
-        domain = ['&', ('supplier', '=', True), ('category_id.name', 'ilike', Loader.get_tag_vendor()["TagTransporter"])])
+                                string="Transport", index=True, required=True,
+                                domain=['&', ('supplier', '=', True),
+                                        ('category_id.name', 'ilike', Loader.get_tag_vendor()["TagTransporter"])])
 
     notes = fields.Char(string="Notes")
 
     @api.model
     def flag_module_startup(self):
         Loader.flag_update()
+
 
 class Attachment(models.Model):
     _inherit = 'ir.attachment'
@@ -55,14 +60,16 @@ class Attachment(models.Model):
 
         return super(Attachment, self).create(vals)
 
+
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     awb = fields.Char(string="Airway Bill / Book")
 
     forwarder = fields.Many2one('res.partner',
-        string="Forwarder", index=True,
-        domain=['&', ('supplier', '=', True), ('category_id.name', 'ilike', Loader.get_tag_vendor()["TagForwarder"])])
+                                string="Forwarder", index=True,
+                                domain=['&', ('supplier', '=', True),
+                                        ('category_id.name', 'ilike', Loader.get_tag_vendor()["TagForwarder"])])
 
     to_export = fields.Boolean(string="Export Order", default=False)
 
@@ -88,11 +95,13 @@ class SaleOrder(models.Model):
 
         return super(SaleOrder, self).fields_view_get(view_id=new_view_id, view_type=view_type, toolbar=toolbar,
                                                       submenu=submenu)
+
     @api.model
     def create(self, vals):
         if is_model_action(self.env, Defines.MODULE_NAME, Defines.EXPORTORDER_ACTIONS_EXTID):
             vals["to_export"] = True
         return super(SaleOrder, self).create(vals=vals)
+
 
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
@@ -101,6 +110,7 @@ class SaleOrderLine(models.Model):
 
     size = fields.Integer(string="Product Size")
     is_organic = fields.Boolean(string="Is Organic", default=False)
-    quality = fields.Selection(string="Quality", selection=[('CATI', 'Cat I'), ('CATII', 'Cat II'), ('CATIII', 'Cat III')])
+    quality = fields.Selection(string="Quality",
+                               selection=[('CATI', 'Cat I'), ('CATII', 'Cat II'), ('CATIII', 'Cat III')])
 
     is_export_order = fields.Boolean(related="order_id.to_export")

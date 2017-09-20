@@ -1,7 +1,8 @@
 import os
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ETree
 
 from odoo.tools.misc import file_open
+
 
 class Defines:
     # In __manifest__.py
@@ -11,6 +12,10 @@ class Defines:
     EXPORTORDER_ACTIONS_EXTID = "exportorder_actions"
     EXPORTORDER_FORMVIEW_NAME = "exportorder.form"
     EXPORTORDER_TREEVIEW_NAME = "exportorder.tree"
+
+    def __init__(self):
+        pass
+
 
 class Loader:
     _tag_vendor = None
@@ -24,7 +29,7 @@ class Loader:
     def __enter__(self):
         pathname = os.path.join(Defines.MODULE_NAME, u'data/default_post_install.xml')
         self.fp = file_open(pathname)
-        self.tree = ET.fromstring(self.fp.read())
+        self.tree = ETree.fromstring(self.fp.read())
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
@@ -36,7 +41,7 @@ class Loader:
         fp = file_open(pathname)
 
         try:
-            tree = ET.fromstring(fp.read())
+            tree = ETree.fromstring(fp.read())
 
             categories = tree.findall(".//data/record[@model='res.partner.category']")
             Loader._tag_vendor = {}
@@ -89,7 +94,7 @@ class Loader:
             find_nodes_xpath = ".//data/vendors/category[@id='{0}']".format(cat_id)
             cat_nodes = self.tree.findall(find_nodes_xpath)
             cat_nodes = cat_nodes[0]
-            for cat_node in cat_nodes._children:
+            for cat_node in cat_nodes:
                 # Would be great to use an external id, like Odoo does with its own data files,
                 # to avoid a string-based query
                 vendor_exists = [('name', 'ilike', cat_node.text)]
@@ -115,12 +120,12 @@ class Loader:
             if product_templates.search_count(product_exists) != 0:
                 continue
 
-            product_template_obj = { u'sale_ok': True, u'purchase_ok': True,
-                                     u'name': product_node.attrib["name"], u'categ_id': product_category.id }
+            product_template_obj = {u'sale_ok': True, u'purchase_ok': True,
+                                    u'name': product_node.attrib["name"], u'categ_id': product_category.id}
             product_template = product_templates.create(product_template_obj)
 
             att_val_xmlids = []
-            for variety_node in product_node._children:
+            for variety_node in product_node:
                 att_val_xmlids.append(variety_node.attrib["id"])
 
             self.add_varieties(product_template, att_val_xmlids)
@@ -138,16 +143,19 @@ class Loader:
 
             product_attributes_lines = self.environment["product.attribute.line"]
 
-            line_search = product_attributes_lines.search([(u'attribute_id', '=', product_attribute.id), (u'product_tmpl_id', '=', product_template.id)])
+            line_search = product_attributes_lines.search(
+                [(u'attribute_id', '=', product_attribute.id), (u'product_tmpl_id', '=', product_template.id)])
             if len(line_search) == 0:
-                product_attribute_line = product_attributes_lines.create({ u'attribute_id': product_attribute.id, u'product_tmpl_id':product_template.id })
+                product_attribute_line = product_attributes_lines.create(
+                    {u'attribute_id': product_attribute.id, u'product_tmpl_id': product_template.id})
             else:
                 product_attribute_line = line_search[0]
 
-            new_product_product = product_products.create({ u'sale_ok': True, u'purchase_ok': True, u'product_tmpl_id': product_template.id,
-                                         u'name': product_template.name, u'categ_id': product_template.categ_id.id })
+            new_product_product = product_products.create(
+                {u'sale_ok': True, u'purchase_ok': True, u'product_tmpl_id': product_template.id,
+                 u'name': product_template.name, u'categ_id': product_template.categ_id.id})
 
-            product_attribute_value.write({u'product_ids': [(4, [new_product_product.id])] })
+            product_attribute_value.write({u'product_ids': [(4, [new_product_product.id])]})
             product_attribute_line.write({u'value_ids': [(4, [product_attribute_value.id])]})
 
         old_product_product.unlink()
