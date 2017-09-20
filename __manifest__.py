@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "ExportAndShipping",
+    'name': "Export and Shipping",
 
     'summary': """
         Integrated perishable food exporting system""",
