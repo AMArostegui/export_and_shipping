@@ -116,7 +116,7 @@ class Loader:
         product_templates = self.environment["product.template"]
 
         # Perishable category is the only one, so far, and for the foreseeable future
-        cat_xmlid = Loader.get_cat_product().iterkeys().next()
+        cat_xmlid = list(Loader.get_cat_product())[0]
         product_category = self.environment.ref(Defines.MODULE_NAME + '.' + cat_xmlid)
         find_nodes_xpath = ".//data/products/product"
         product_nodes = self.tree.findall(find_nodes_xpath)
