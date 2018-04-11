@@ -95,7 +95,7 @@ class Loader:
     def add_default_vendors(self):
         res_partners = self.environment["res.partner"]
 
-        for cat_id, cat_name in self.get_tag_vendor().iteritems():
+        for cat_id, cat_name in self.get_tag_vendor().items():
             res_partner_category = self.environment.ref(Defines.MODULE_NAME + '.' + cat_id)
             find_nodes_xpath = ".//data/vendors/category[@id='{0}']".format(cat_id)
             cat_nodes = self.tree.findall(find_nodes_xpath)
