@@ -105,9 +105,11 @@ class Loader:
                 # to avoid a string-based query
                 vendor_exists = [('name', 'ilike', cat_node.text)]
                 if res_partners.search_count(vendor_exists) == 0:
+                    # category_id: It Seems like Many2Many relationships have changed from Odoo v10
+                    # It used to be 'category_id': [(4, [res_partner_category.id])]
                     res_partner_obj = {'type': 'contact', 'is_company': False, 'customer': False, 'supplier': True,
                                        'employee': False,
-                                       'name': cat_node.text, 'category_id': [(4, [res_partner_category.id])]}
+                                       'name': cat_node.text, 'category_id': [(4, res_partner_category.id)]}
                     res_partners.create(res_partner_obj)
 
     def add_default_products(self):
