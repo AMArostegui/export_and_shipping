@@ -32,7 +32,7 @@ class Loader:
         self.environment = model.env
 
     def __enter__(self):
-        pathname = os.path.join(Defines.MODULE_NAME, u'data/default_post_install.xml')
+        pathname = os.path.join(Defines.MODULE_NAME, 'data/default_post_install.xml')
         self.fp = file_open(pathname)
         self.tree = ETree.fromstring(self.fp.read())
         return self
@@ -43,7 +43,7 @@ class Loader:
 
     @staticmethod
     def _read_categories():
-        pathname = os.path.join(Defines.MODULE_NAME, u'data/default.xml')
+        pathname = os.path.join(Defines.MODULE_NAME, 'data/default.xml')
         fp = file_open(pathname)
 
         try:
@@ -105,9 +105,9 @@ class Loader:
                 # to avoid a string-based query
                 vendor_exists = [('name', 'ilike', cat_node.text)]
                 if res_partners.search_count(vendor_exists) == 0:
-                    res_partner_obj = {u'type': u'contact', u'is_company': False, u'customer': False, u'supplier': True,
-                                       u'employee': False,
-                                       u'name': cat_node.text, u'category_id': [(4, [res_partner_category.id])]}
+                    res_partner_obj = {'type': 'contact', 'is_company': False, 'customer': False, 'supplier': True,
+                                       'employee': False,
+                                       'name': cat_node.text, 'category_id': [(4, [res_partner_category.id])]}
                     res_partners.create(res_partner_obj)
 
     def add_default_products(self):
@@ -126,8 +126,8 @@ class Loader:
             if product_templates.search_count(product_exists) != 0:
                 continue
 
-            product_template_obj = {u'sale_ok': True, u'purchase_ok': True,
-                                    u'name': product_node.attrib["name"], u'categ_id': product_category.id}
+            product_template_obj = {'sale_ok': True, 'purchase_ok': True,
+                                    'name': product_node.attrib["name"], 'categ_id': product_category.id}
             product_template = product_templates.create(product_template_obj)
 
             att_val_xmlids = []
@@ -150,18 +150,18 @@ class Loader:
             product_attributes_lines = self.environment["product.attribute.line"]
 
             line_search = product_attributes_lines.search(
-                [(u'attribute_id', '=', product_attribute.id), (u'product_tmpl_id', '=', product_template.id)])
+                [('attribute_id', '=', product_attribute.id), ('product_tmpl_id', '=', product_template.id)])
             if len(line_search) == 0:
                 product_attribute_line = product_attributes_lines.create(
-                    {u'attribute_id': product_attribute.id, u'product_tmpl_id': product_template.id})
+                    {'attribute_id': product_attribute.id, 'product_tmpl_id': product_template.id})
             else:
                 product_attribute_line = line_search[0]
 
             new_product_product = product_products.create(
-                {u'sale_ok': True, u'purchase_ok': True, u'product_tmpl_id': product_template.id,
-                 u'name': product_template.name, u'categ_id': product_template.categ_id.id})
+                {'sale_ok': True, 'purchase_ok': True, 'product_tmpl_id': product_template.id,
+                 'name': product_template.name, 'categ_id': product_template.categ_id.id})
 
-            product_attribute_value.write({u'product_ids': [(4, [new_product_product.id])]})
-            product_attribute_line.write({u'value_ids': [(4, [product_attribute_value.id])]})
+            product_attribute_value.write({'product_ids': [(4, [new_product_product.id])]})
+            product_attribute_line.write({'value_ids': [(4, [product_attribute_value.id])]})
 
         old_product_product.unlink()
