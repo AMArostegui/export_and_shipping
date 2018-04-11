@@ -147,7 +147,9 @@
     </record>
 
     <!--Menu Items-->
-    <menuitem id="export_and_shipping_menu" name="Export and Shipping" parent="sales_team.menu_base_partner"/>
+    <!--Parent used to be "sales_team.menu_base_partner" for "export_and_shipping_menu" in Odoo 10-->
+    <menuitem id="export_and_shipping_menu" name="Export and Shipping" parent="sale.sale_menu_root"/>
+
     <menuitem id="shipment_menu_shipments" name="Shipments" parent="export_and_shipping_menu"
           action="shipment_actions"/>
     <menuitem id="shipment_menu_order" name="Export Orders" parent="export_and_shipping_menu"
