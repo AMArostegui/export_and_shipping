@@ -163,7 +163,7 @@ class Loader:
                 {'sale_ok': True, 'purchase_ok': True, 'product_tmpl_id': product_template.id,
                  'name': product_template.name, 'categ_id': product_template.categ_id.id})
 
-            product_attribute_value.write({'product_ids': [(4, [new_product_product.id])]})
-            product_attribute_line.write({'value_ids': [(4, [product_attribute_value.id])]})
+            product_attribute_value.write({'product_ids': [(4, new_product_product.id)]})
+            product_attribute_line.write({'value_ids': [(4, product_attribute_value.id)]})
 
         old_product_product.unlink()
